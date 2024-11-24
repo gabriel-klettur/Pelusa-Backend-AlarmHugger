@@ -12,7 +12,6 @@ from app.server.middlewares import AllowedIPsMiddleware, InvalidRequestLoggingMi
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.alarms.routes import router as alarms_router
-
 from app.server.routes import router as server_router
 
 #------------------------------------------------------- LOGGING -------------------------------------------------------
@@ -22,10 +21,10 @@ logger.add("logs/file_{time:YYYY-MM-DD}.log", rotation="00:00")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        logger.info("Initializing databases...")
+        logger.info("Initializing Alarm databases...")
         
         await init_db_alarmas()   
-        logger.info("Databases: OK")
+        logger.info("Databases for Alarm's : OK")
         
 
         # Iniciar la tarea en segundo plano
