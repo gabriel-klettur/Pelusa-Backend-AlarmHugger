@@ -13,6 +13,8 @@ from app.alarms.utils import convierte_temporalidad                         #Uti
 from loguru import logger                                                   #Logging
 from typing import List                                                     #Tipado         
 
+from datetime import datetime                                               #Fecha y hora
+
 router = APIRouter()
 
 """
@@ -31,12 +33,15 @@ router = APIRouter()
 async def webhook(request: Request, alarm_data: AlarmCreate, db_alarmas: AsyncSession = Depends(get_db_alarmas)):
     try:
         client_ip = request.client.host
-        logger.info(f"Alarm received from {client_ip}")
+        #logger.info(f"Alarm received from {client_ip}")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{current_time}]-AlarmHugger - Alarm received from {client_ip}")
+        
 
         # Verificar si la IP está permitida
         await is_ip_allowed(client_ip)
 
-        logger.debug(f"Alarm Data: {alarm_data.json()}")
+        #logger.debug(f"Alarm Data: {alarm_data.json()}")
 
         variables = alarm_data.dict()
         
