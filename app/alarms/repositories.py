@@ -7,7 +7,7 @@ from app.alarms.models import Alarm
 async def save_alarm(db: AsyncSession, variables: dict, raw_data: str):
     db_alarm = Alarm(
         Ticker=variables.get('Ticker'),
-        Temporalidad=variables.get('Temporalidad'),
+        Interval=variables.get('Interval'),
         Quantity=variables.get('Quantity'),
         Price_Alert=variables.get('Price_Alert'),        
         Time_Alert=variables.get('Time_Alert'),
@@ -27,13 +27,13 @@ async def get_alarms(db: AsyncSession, limit: int = 10, offset: int = 0, latest:
     result = await db.execute(query)
     return result.scalars().all()
 
-async def get_latest_alarm_with_entry(db: AsyncSession, strategy_name: str, ticker: str, entry_order: str, temporalidad: str):
+async def get_latest_alarm_with_entry(db: AsyncSession, strategy_name: str, ticker: str, entry_order: str, interval: str):
     result = await db.execute(
         select(Alarm)
         .where(Alarm.Strategy == strategy_name)
         .where(Alarm.Ticker == ticker)
         .where(Alarm.Order == entry_order)
-        .where(Alarm.Temporalidad == temporalidad)
+        .where(Alarm.Interval == interval)
         .order_by(Alarm.id.desc())
         .limit(1)
     )
