@@ -46,7 +46,7 @@ async def webhook(request: Request, alarm_data: AlarmCreate, db_alarmas: AsyncSe
         variables = alarm_data.dict()
         
         # Convertir la temporalidad
-        variables['Temporalidad'] = convierte_temporalidad(variables.get('Temporalidad'))
+        variables['Interval'] = convierte_temporalidad(variables.get('Interval'))
         
         raw_data = alarm_data.json()
 
