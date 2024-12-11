@@ -5,7 +5,7 @@ from typing import Optional
 
 class AlarmCreate(BaseModel):
     Ticker: str
-    Temporalidad: str
+    Interval: str
     Quantity: Optional[str] = None
     Price_Alert: Optional[str] = None    
     Time_Alert: str
@@ -18,7 +18,7 @@ class AlarmCreate(BaseModel):
 class AlarmResponse(BaseModel):
     id: int
     Ticker: str
-    Temporalidad: str
+    Interval: str
     Quantity: Optional[str] = None
     Price_Alert: Optional[str] = None    
     Time_Alert: str
