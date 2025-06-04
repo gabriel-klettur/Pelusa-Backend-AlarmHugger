@@ -10,6 +10,7 @@ from app.turso.database import close_db_connections, init_db_alarmas
 from app.utils.server_status import log_server_status
 from app.server.middlewares import AllowedIPsMiddleware, InvalidRequestLoggingMiddleware, LogResponseMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from app.config import settings
 
 from app.alarms.routes import router as alarms_router
 from app.server.routes import router as server_router
@@ -20,6 +21,10 @@ logger.add("logs/file_{time:YYYY-MM-DD}.log", rotation="00:00")
 #------------------------------------------------------- ASYNC CONTEXT MANAGER -----------------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    if settings.USE_TURSO:
+        logger.info(f"Conectando a Turso: {settings.DATABASE_URL_ALARMAS}")
+    else:
+        logger.info(f"Conectando a SQLite local: {settings.DATABASE_URL_ALARMAS}")
     try:
         logger.info("Initializing Alarm databases...")
         
@@ -81,4 +86,3 @@ async def not_found_handler(request: Request, exc: HTTPException):
 app.include_router(alarms_router, prefix="/alarms", tags=["alarms"])
 
 app.include_router(server_router, prefix="/server", tags=["server"])
-
