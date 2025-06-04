@@ -18,13 +18,14 @@ class Settings:
     DATABASE_URL_DESARROLLO_KLINE_DATA  = f"sqlite+aiosqlite:///{SQLITE_DIR}/kline_data.sqlite"
     DATABASE_URL_DESARROLLO_ORDERS      = f"sqlite+aiosqlite:///{SQLITE_DIR}/orders.sqlite"
     # Turso (production URLs)
-    DATABASE_URL_PROD_ALARMAS     = os.getenv("TURSO_URL_ALARMAS", "")
-    DATABASE_URL_PROD_ESTRATEGIAS = os.getenv("TURSO_URL_ESTRATEGIAS", "")
-    DATABASE_URL_PROD_DIARY       = os.getenv("TURSO_URL_DIARY", "")
-    DATABASE_URL_PROD_POSITIONS   = os.getenv("TURSO_URL_POSITIONS", "")
-    DATABASE_URL_PROD_ACCOUNTS    = os.getenv("TURSO_URL_ACCOUNTS", "")
-    DATABASE_URL_PROD_KLINE_DATA  = os.getenv("TURSO_URL_KLINE_DATA", "")
-    DATABASE_URL_PROD_ORDERS      = os.getenv("TURSO_URL_ORDERS", "")
+    TURSO_AUTH_TOKEN              = os.getenv("TURSO_AUTH_TOKEN", "")
+    DATABASE_URL_PROD_ALARMAS     = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_ESTRATEGIAS = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_DIARY       = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_POSITIONS   = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_ACCOUNTS    = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_KLINE_DATA  = os.getenv("TURSO_DATABASE_URL", "")
+    DATABASE_URL_PROD_ORDERS      = os.getenv("TURSO_DATABASE_URL", "")
 
     @property
     def DATABASE_URL_ALARMAS(self):

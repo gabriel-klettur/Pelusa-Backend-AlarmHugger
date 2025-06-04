@@ -116,6 +116,8 @@ celerybeat.pid
 .venv
 env/
 venv/
+data_sqlite/
+*.sqlite
 venv2/
 ENV/
 env.bak/
