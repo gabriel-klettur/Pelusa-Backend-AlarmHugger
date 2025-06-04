@@ -21,7 +21,7 @@
 **Project Name:** Pelusa BackEnd AlarmHugger - Public
 
 **Description:**  
-The **Pelusa BackEnd AlarmHugger** is a backend service responsible for handling and managing alarms triggered by **TradingView**. The service processes alarms and stores them in a **SiteGround-hosted database**. It is built using **FastAPI** and offers a **modular architecture** with support for:  
+The **Pelusa BackEnd AlarmHugger** is a backend service responsible for handling and managing alarms triggered by **TradingView**. The service processes alarms and stores them in a **turso-hosted database**. It is built using **FastAPI** and offers a **modular architecture** with support for:  
 - IP whitelisting for security  
 - Logging with **Loguru**  
 - Exception handling for stable performance  
@@ -33,7 +33,7 @@ The AlarmHugger receives webhook requests, processes the incoming alarm, and sto
 ## 🚀 2. Key Features
 
 - **Webhook Handling**: Processes incoming alarms from TradingView via a webhook.  
-- **Database Storage**: Stores alarms in the **SiteGround database** for persistence.  
+- **Database Storage**: Stores alarms in the **turso database** for persistence.  
 - **IP Filtering**: Uses IP whitelisting and blocking to ensure only allowed IPs can interact with the system.  
 - **Error Handling**: Provides structured error handling to return meaningful HTTP responses.  
 - **Logging**: Uses **Loguru** for logging requests, responses, and system events.  
@@ -48,7 +48,7 @@ The AlarmHugger receives webhook requests, processes the incoming alarm, and sto
 - **Language**: Python 3+  
 - **Framework**: FastAPI  
 - **Web Server**: Uvicorn (development) + Gunicorn (production)  
-- **Database**: MySQL (hosted on SiteGround)  
+- **Database**: MySQL (hosted on turso)  
 - **ORM**: SQLAlchemy  
 - **Security**: IP filtering, exception handling, and SSL certificates  
 
@@ -81,7 +81,7 @@ Pelusa-BackEnd-AlarmHugger/
 │ │ ├── init.py 
 │ │ ├── middlewares.py 
 │ │ └── routes.py 
-│ ├── siteground/ 
+│ ├── turso/ 
 │ │ ├── init.py 
 │ │ ├── base.py 
 │ │ └── database.py 
@@ -98,7 +98,7 @@ Pelusa-BackEnd-AlarmHugger/
 **Key Folders**
 - **alarms/**: Handles the core logic for alarm processing, including parsing, saving, and querying alarms.  
 - **server/**: Contains middlewares and routes for server health checks, IP filtering, and logging.  
-- **siteground/**: Database connection logic and models for the **SiteGround-hosted database**.  
+- **turso/**: Database connection logic and models for the **turso-hosted database**.  
 - **utils/**: Utility functions for IP checks, server status, and services.  
 
 ---
@@ -126,7 +126,7 @@ Pelusa-BackEnd-AlarmHugger/
 **Consolidate Cycle**
 1. **Documentation**: Use OpenAPI docs for documenting all endpoints.  
 2. **Code Review & Refactoring**: Review and optimize code for performance and security.  
-3. **Integration & Deployment**: Deploy to **AWS EC2** with connection to SiteGround databases.  
+3. **Integration & Deployment**: Deploy to **AWS EC2** with connection to turso databases.  
 
 ---
 

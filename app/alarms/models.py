@@ -1,8 +1,8 @@
 # app/alarms/models.py
-# Descripción: SQLAlchemy models para las alarmas en la base de datos de Siteground
+# Descripción: SQLAlchemy models para las alarmas en la base de datos de turso
 
 from sqlalchemy import Column, Integer, String
-from app.siteground.base import BaseAlarmas
+from app.turso.base import BaseAlarmas
 
 class Alarm(BaseAlarmas):
     __tablename__ = 'tbl_alarms'

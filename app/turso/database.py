@@ -1,10 +1,10 @@
-# Path: app/siteground/database.py
+# Path: app/turso/database.py
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
 from loguru import logger
-from app.siteground.base import BaseAlarmas
+from app.turso.base import BaseAlarmas
 
 # Configuración de las bases de datos
 engine_alarmas = create_async_engine(settings.DATABASE_URL_DESARROLLO_ALARMAS, pool_recycle=3600, pool_pre_ping=True)

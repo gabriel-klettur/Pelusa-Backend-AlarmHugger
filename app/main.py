@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 import asyncio
 from loguru import logger
 from contextlib import asynccontextmanager
-from app.siteground.database import close_db_connections, init_db_alarmas
+from app.turso.database import close_db_connections, init_db_alarmas
 from app.utils.server_status import log_server_status
 from app.server.middlewares import AllowedIPsMiddleware, InvalidRequestLoggingMiddleware, LogResponseMiddleware
 from fastapi.middleware.cors import CORSMiddleware

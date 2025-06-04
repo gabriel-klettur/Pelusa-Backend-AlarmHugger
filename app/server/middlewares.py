@@ -8,9 +8,11 @@ from app.config import settings
 from loguru import logger
 import json
 
-class AllowedIPsMiddleware(BaseHTTPMiddleware):
+class AllowedIPsMiddleware(BaseHTTPMiddleware):    
     async def dispatch(self, request: Request, call_next):
         client_ip = request.client.host        
+        print(">>> IP que llega:", client_ip)
+        print(">>> Lista ALLOWED_IPS:", settings.ALLOWED_IPS)
         if client_ip not in settings.ALLOWED_IPS:
             logger.warning(f"Unauthorized IP {client_ip} attempted to access the service")
             return JSONResponse({"detail": "Access forbidden: Your IP is not allowed"}, status_code=403)

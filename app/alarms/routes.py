@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query       #FastAPI           
 from sqlalchemy.ext.asyncio import AsyncSession                             #Base de datos        
-from app.siteground.database import get_db_alarmas                          #Base de datos
+from app.turso.database import get_db_alarmas                          #Base de datos
 
 from app.alarms.schemas import AlarmCreate, AlarmResponse                   #Schemas   
 from app.alarms.repositories import save_alarm                            #Base de datos

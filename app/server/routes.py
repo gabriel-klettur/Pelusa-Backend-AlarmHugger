@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import text
 from datetime import datetime
 from app.utils.ip_check import is_ip_allowed
-from app.siteground.database import get_db_alarmas
+from app.turso.database import get_db_alarmas
 from loguru import logger
 
 router = APIRouter()
