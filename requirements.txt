@@ -4,11 +4,10 @@ gunicorn
 sqlalchemy
 python-dotenv
 cryptography
-aiomysql
-aiosqlite
-libsql-experimental
 loguru
 requests
 python-multipart
 pandas
 ta
+psycopg2-binary
+asyncpg

@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query       #FastAPI           
 from sqlalchemy.ext.asyncio import AsyncSession                             #Base de datos        
-from app.turso.database import get_db_alarmas                          #Base de datos
+from app.db.database import get_db                          #Base de datos
 
 from app.alarms.schemas import AlarmCreate, AlarmResponse                   #Schemas   
 from app.alarms.repositories import save_alarm                            #Base de datos
@@ -30,7 +30,7 @@ router = APIRouter()
         HTTPException: If the IP is not allowed or any other error occurs during processing.
 """
 @router.post("/webhook", response_model=AlarmResponse)
-async def webhook(request: Request, alarm_data: AlarmCreate, db_alarmas: AsyncSession = Depends(get_db_alarmas)):
+async def webhook(request: Request, alarm_data: AlarmCreate, db_alarmas: AsyncSession = Depends(get_db)):
     try:
         client_ip = request.client.host
         #logger.info(f"Alarm received from {client_ip}")

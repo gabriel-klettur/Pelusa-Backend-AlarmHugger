@@ -1,60 +1,26 @@
 # Path: app/config.py
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 
-load_dotenv()
+# Cargar variables de entorno desde la raíz del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent
+dotenv_path = BASE_DIR / '.env'
+logger.info(f"Cargando variables de entorno desde {dotenv_path}")
+load_dotenv(dotenv_path)
+logger.debug(f"Config loaded: DATABASE_URL={os.getenv('DATABASE_URL')}")
 
 class Settings:
-    # Toggle Turso usage: set USE_TURSO=true in .env for production
-    USE_TURSO = os.getenv("USE_TURSO", "false").lower() in ["true", "1", "yes", "on"]
-    # Local SQLite paths
-    SQLITE_DIR = os.getenv("SQLITE_DIR", "./data_sqlite")
-    DATABASE_URL_DESARROLLO_ALARMAS     = f"sqlite+aiosqlite:///{SQLITE_DIR}/alarms.sqlite"
-    DATABASE_URL_DESARROLLO_ESTRATEGIAS = f"sqlite+aiosqlite:///{SQLITE_DIR}/estrategias.sqlite"
-    DATABASE_URL_DESARROLLO_DIARY       = f"sqlite+aiosqlite:///{SQLITE_DIR}/diary.sqlite"
-    DATABASE_URL_DESARROLLO_POSITIONS   = f"sqlite+aiosqlite:///{SQLITE_DIR}/positions.sqlite"
-    DATABASE_URL_DESARROLLO_ACCOUNTS    = f"sqlite+aiosqlite:///{SQLITE_DIR}/accounts.sqlite"
-    DATABASE_URL_DESARROLLO_KLINE_DATA  = f"sqlite+aiosqlite:///{SQLITE_DIR}/kline_data.sqlite"
-    DATABASE_URL_DESARROLLO_ORDERS      = f"sqlite+aiosqlite:///{SQLITE_DIR}/orders.sqlite"
-    # Turso (production URLs)
-    TURSO_AUTH_TOKEN              = os.getenv("TURSO_AUTH_TOKEN", "")
-    DATABASE_URL_PROD_ALARMAS     = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_ESTRATEGIAS = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_DIARY       = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_POSITIONS   = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_ACCOUNTS    = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_KLINE_DATA  = os.getenv("TURSO_DATABASE_URL", "")
-    DATABASE_URL_PROD_ORDERS      = os.getenv("TURSO_DATABASE_URL", "")
-
-    @property
-    def DATABASE_URL_ALARMAS(self):
-        return self.DATABASE_URL_PROD_ALARMAS if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_ALARMAS
-
-    @property
-    def DATABASE_URL_ESTRATEGIAS(self):
-        return self.DATABASE_URL_PROD_ESTRATEGIAS if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_ESTRATEGIAS
-
-    @property
-    def DATABASE_URL_DIARY(self):
-        return self.DATABASE_URL_PROD_DIARY if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_DIARY
-
-    @property
-    def DATABASE_URL_POSITIONS(self):
-        return self.DATABASE_URL_PROD_POSITIONS if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_POSITIONS
-
-    @property
-    def DATABASE_URL_ACCOUNTS(self):
-        return self.DATABASE_URL_PROD_ACCOUNTS if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_ACCOUNTS
-
-    @property
-    def DATABASE_URL_KLINE_DATA(self):
-        return self.DATABASE_URL_PROD_KLINE_DATA if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_KLINE_DATA
-
-    @property
-    def DATABASE_URL_ORDERS(self):
-        return self.DATABASE_URL_PROD_ORDERS if self.USE_TURSO else self.DATABASE_URL_DESARROLLO_ORDERS
-
+    # Database connection for Neon Postgres
+    # Normalize Postgres URL for asyncpg driver
+    raw_db_url = os.getenv("DATABASE_URL", "")
+    if raw_db_url.startswith("postgres://"):
+        DATABASE_URL = raw_db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+    elif raw_db_url.startswith("postgresql://"):
+        DATABASE_URL = raw_db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    else:
+        DATABASE_URL = raw_db_url
     # Otros ajustes
     APIURL = os.getenv("APIURL")
     APIKEY = os.getenv("APIKEY")

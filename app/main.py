@@ -3,10 +3,11 @@
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+import os
 import asyncio
 from loguru import logger
 from contextlib import asynccontextmanager
-from app.turso.database import close_db_connections, init_db_alarmas
+from app.db.database import close_db, init_db
 from app.utils.server_status import log_server_status
 from app.server.middlewares import AllowedIPsMiddleware, InvalidRequestLoggingMiddleware, LogResponseMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,15 +22,14 @@ logger.add("logs/file_{time:YYYY-MM-DD}.log", rotation="00:00")
 #------------------------------------------------------- ASYNC CONTEXT MANAGER -----------------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if settings.USE_TURSO:
-        logger.info(f"Conectando a Turso: {settings.DATABASE_URL_ALARMAS}")
-    else:
-        logger.info(f"Conectando a SQLite local: {settings.DATABASE_URL_ALARMAS}")
+    # Mostrar variables de entorno para depuración
+    logger.info(f"Env variables: DATABASE_URL={os.getenv('DATABASE_URL')}")
+    logger.info(f"Using database: {settings.DATABASE_URL}")
     try:
-        logger.info("Initializing Alarm databases...")
+        logger.info("Initializing databases...")
         
-        await init_db_alarmas()   
-        logger.info("Databases for Alarm's : OK")
+        await init_db()   
+        logger.info("Databases: OK")
         
 
         # Iniciar la tarea en segundo plano
@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI):
     finally:
         logger.info("Shutting down...")
         try:
-            await close_db_connections()  # Asegúrate de cerrar las conexiones aquí
+            await close_db()  # Cierra las conexiones aquí
         except Exception as e:
             logger.error(f"Error closing database connections: {e}")
 

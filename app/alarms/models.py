@@ -1,10 +1,10 @@
 # app/alarms/models.py
-# Descripción: SQLAlchemy models para las alarmas en la base de datos de turso
+# Descripción: SQLAlchemy models para las alarmas en la base de datos de Neon PostgreSQL
 
 from sqlalchemy import Column, Integer, String
-from app.turso.base import BaseAlarmas
+from app.db.base import Base
 
-class Alarm(BaseAlarmas):
+class Alarm(Base):
     __tablename__ = 'tbl_alarms'
     
     id = Column(Integer, primary_key=True, index=True)
